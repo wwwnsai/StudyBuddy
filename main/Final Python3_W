@@ -1,0 +1,178 @@
+from abc import ABC, abstractmethod
+from tkinter.font import Font
+from tkinter import ttk
+import tkinter as tk
+import time
+from tkinter import messagebox
+from itertools import count
+
+class MenuWindow(ABC):
+    def __init__(self, win = None):
+        self.w = win
+        self.w = tk.Tk()
+        self.w.title("Study Bud")
+        self.w.geometry("500x600")
+        self.w.configure(background = '#4B7674')
+        self.w.resizable(True,True)
+
+        # fonts
+        self.helv30 = Font(family = "Helvetica", size = 30, weight = "bold")
+        self.helv = Font(family = "Helvetica", size = 16, weight = "normal")
+
+        # LabelMenu
+        self.L_menuText = tk.Label(self.w, text = "Time to Study!", foreground = "white", background = '#4B7674', font = self.helv30).place(relx = 0.5, rely = 0.07, 
+        anchor = 'n')
+        # self.L_studyTime = tk.Label(self.w, text = "Select your study time : ", background = '#4B7674', foreground = "White", font = self.helv).place(relx = 0.35, 
+        # rely = 0.25, anchor = 'n')
+        # self.L_ = tk.Label(self.w, text = " : ", background = '#4B7674', foreground = "white", font = self.helv).place(relx = 0.74, rely = 0.25, anchor = 'n')
+        self.L_breakTime = tk.Label(self.w, text = "Select your break time : ", background = '#4B7674', foreground = "White", font = self.helv).place(relx = 0.42, 
+        rely = 0.40, anchor = 'n')
+
+        # CheckButtons
+        self.Check_music = tk.Checkbutton(self.w, text = "Music", font = self.helv, background = '#4B7674', foreground = "white",
+        ).place(relx = 0.5, rely = 0.555, anchor = 'n')
+        self.Check_posture = tk.Checkbutton(self.w, text = "Posture Reminder", background = '#4B7674', foreground = "white", font = self.helv, 
+        ).place(relx = 0.5, rely = 0.705, anchor = 'n')
+
+        # MenuButtons
+        # self.option_hour = [f"{x:0>2}" for x in range (0,10)]
+        # self.clicked_hour = tk.StringVar(self.w)
+        # self.clicked_hour.set(f"Hour")
+        # self.M_studyTime = tk.OptionMenu(self.w, self.clicked_hour, *self.option_hour)
+        # self.M_studyTime.config(background = "#FFD553")
+        # self.M_studyTime.place(relx = 0.65, rely = 0.25, anchor = 'n')
+
+        # self.option_minute = [f"{x:0>2}" for x in range (0,59)]
+        # self.clicked_minute = tk.StringVar(self.w)
+        # self.clicked_minute.set(f"Minute")
+        # self.M_breaktime = tk.OptionMenu(self.w, self.clicked_minute, *self.option_minute)
+        # self.M_breaktime.config(background = "#FFD553")
+        # self.M_breaktime.place(relx = 0.82, rely = 0.25, anchor = 'n')
+
+        self.option_breakTime = [f"{0:0>2}", f"{5:0>2}", f"{10:0>2}", f"{59:0>2}", f"{20:0>2}"]
+        self.clicked_breaktime = tk.StringVar(self.w)
+        self.clicked_breaktime.set(f"{0:0>2}")
+        self.M_breaktime = tk.OptionMenu(self.w, self.clicked_breaktime, *self.option_breakTime)
+        self.M_breaktime.config(background = "#FFD553")
+        self.M_breaktime.place(relx = 0.75, rely = 0.40, anchor = 'n')
+
+        # Start Button
+        self.B_start = tk.Button(self.w, width = 10, text = "start", background = '#203939', foreground = "white", 
+        font = self.helv, command = self.start).place(relx = 0.37, rely = 0.85, anchor = 'nw')
+
+
+        self.w.mainloop()
+
+    @abstractmethod
+    def start(self):
+        pass
+
+    @abstractmethod
+    def timer(self):
+        pass
+
+    # @abstractmethod
+    # def breaktimer(self):
+    #     pass
+
+class startCommand(MenuWindow):
+    def __init__(self, win = None):
+        super().__init__(win)
+        
+    def start(self):
+        self.w2 = tk.Toplevel(self.w)
+        self.w2.title("Study Bud")
+        self.w2.geometry("1280x720")
+        self.w2.configure(background = '#4B7674')
+        self.w2.resizable(True,True)
+
+        self.h = tk.IntVar(self.w2)
+        self.m = tk.IntVar(self.w2)
+        self.s = tk.IntVar(self.w2)
+        self.hour = 0
+        self.minute = 0
+        self.second = 0
+        self.h.set("{0:2d}".format(self.hour))
+        self.m.set("{0:2d}".format(self.minute))
+        self.s.set("{0:2d}".format(self.second))
+
+        self.w2.columnconfigure(0, weight = 8)
+        self.w2.columnconfigure(2, weight = 1)
+        self.w2.columnconfigure(3, weight = 1)
+        self.w2.columnconfigure(4, weight = 1)
+        self.w2.columnconfigure(5, weight = 1)
+        self.w2.columnconfigure(6, weight = 1)
+        self.w2.columnconfigure(7, weight = 8)
+        self.w2.rowconfigure(0, weight = 1)
+        self.w2.rowconfigure(1, weight = 1)
+        self.w2.rowconfigure(2, weight = 1)
+        self.w2.rowconfigure(3, weight = 1)
+
+
+        self.colon1 = tk.Label(self.w2, text = ':', background = '#4B7674', foreground = "White", 
+        font = self.helv30)
+        self.colon1.grid(column = 3, row = 1, padx = 20, sticky = tk.EW)
+        self.colon2 = tk.Label(self.w2, text = ':', background = '#4B7674', foreground = "White", 
+        font = self.helv30)
+        self.colon2.grid(column = 5, row = 1, padx = 20, sticky = tk.EW)
+        
+        self.showTime_s = tk.Label(self.w2, text = f"{self.h.get():0>2}", background = '#4B7674', foreground = "White", 
+        font = self.helv30)
+        self.showTime_s.grid(column = 6, row = 1, padx = 20, sticky = tk.EW)
+        self.showTime_m = tk.Label(self.w2, text = f"{self.m.get():0>2}", background = '#4B7674', foreground = "White", 
+        font = self.helv30)
+        self.showTime_m.grid(column = 4, row = 1, padx = 20, sticky = tk.EW)
+        self.showTime_h = tk.Label(self.w2, text = f"{self.h.get():0>2}", background = '#4B7674', foreground = "White", 
+        font = self.helv30)
+        self.showTime_h.grid(column = 2, row = 1, padx = 20, sticky = tk.EW)
+
+        
+        self.timer()
+        
+    def timer(self):
+        
+        self.time = int(self.m.get()*60) + int(self.s.get())
+        # print(self.time)
+        # second
+        while self.time > -1:
+            
+            for i in count(0):
+                self.w2.update() 
+                print(self.second)
+                self.showTime_s.configure(text = f"{self.s.get() + 1 :0>2}")
+                self.w2.after(1*(10**3))  
+                self.second += 1
+                self.s.set(self.second)
+                self.time += 1
+                print("time: ", self.time, "    /60: ", self.time%60)
+                if self.second == 60:
+                    self.second = 0
+                    self.s.set(self.second)
+                    self.showTime_s.configure(text = f"{self.s.get() :0>2}")
+                    print(self.s.get())
+                
+                    self.minute += 1
+                    self.m.set("{0:2d}".format(self.minute))
+                    self.w2.update() 
+                    self.showTime_m.configure(text = f"{self.m.get():0>2}")
+                    # self.w = messagebox.showinfo('hi')
+                    
+                    if int(self.m.get()) == 60:
+                        self.minute = 0
+                        self.m.set(self.minute)
+                        self.showTime_m.configure(text = f"{self.m.get() :0>2}")
+                        self.hour += 1
+                        self.h.set("{0:2d}".format(self.hour))
+                        self.w2.update() 
+                        self.showTime_h.configure(text = f"{self.h.get():0>2}")
+                        
+
+                
+    #             self.breaktimer()
+
+    # def breaktimer(self):
+    #     if self.time%5 == 0:
+    #         print(self.time)
+
+
+startCommand()

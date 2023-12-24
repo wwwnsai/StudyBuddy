@@ -1,0 +1,80 @@
+if self.time>-1:
+    while self.play == True:
+        for i in range(self.s.get()):
+            # change second
+            self.w2.update() 
+            self.showTime_s.configure(text = f"{self.s.get()-1 - i :0>2}")
+            self.w2.after(1*(10**3))  
+            self.time -= 1
+            # print("seconds left: ", self.time, "    /60: ", self.time%60)
+            if self.s == 0:
+                self.s = self.s + 59
+            # change minute
+            if self.time%60 == 59:
+                if self.minute > 0:
+                    self.minute -= 1
+                    self.m.set("{0:2d}".format(self.minute))
+                    self.w2.update() 
+                    self.showTime_m.configure(text = f"{int(self.m.get())-i:0>2}")
+                            
+                    # change hour
+                    if int(self.m.get()) == -1:
+                        if self.hour > 0:
+                            self.hour -= 1
+                            self.h.set("{0:2d}".format(self.hour))
+                            self.w2.update() 
+                            self.showTime_h.configure(text = f"{int(self.h.get())-i:0>2}")
+                            self.showTime_m.configure(text = f"{0:0>2}")
+
+                # stop
+                elif self.time <= 0:
+                    self.w2.update() 
+                    self.showTime_h.configure(text = f"{0:0>2}")
+                    self.showTime_m.configure(text = f"{0:0>2}")
+                    self.showTime_s.configure(text = f"{0:0>2}")
+                    break
+
+            #when time reaches break time
+            # if self.play:
+            #     self.w2.after(5000, self.timer)   
+            # if self.time%5 == 0:
+            #     self.play = False    
+elif self.time%5 == 0:
+    self.play = False
+    print("hi")              
+
+
+
+
+ def timer(self):
+        self.time = int(self.h.get()*3600) + int(self.m.get()*60) + int(self.s.get())
+        self.play = True
+        if self.play == True:
+            while self.time > -1:
+                mins, secs = (self.time//60, self.time%60)
+                hours = 0
+                if mins > 60:
+                    hours, mins = (mins // 60, mins % 60)
+                    self.s.set("{0:2d}".format(secs))
+                    self.m.set("{0:2d}".format(mins))
+                    self.h.set("{0:2d}".format(hours))
+
+                    self.w2.update()
+                    self.showTime_s.configure(text = f"{self.s.get():0>2}")
+                    self.showTime_m.configure(text = f"{self.m.get():0>2}")
+                    self.showTime_h.configure(text = f"{self.h.get():0>2}")
+                    self.w2.after(1000)
+
+                    if self.time == 0 :
+                        self.s.set('00')
+                        self.m.set('00')
+                        self.h.set('00')
+                        self.showTime_s.configure(text = f"{self.s.get():0>2}")
+                        self.showTime_m.configure(text = f"{self.m.get():0>2}")
+                        self.showTime_h.configure(text = f"{self.h.get():0>2}")
+
+                    self.time -= 1
+
+        elif self.time%5 == 0:
+            self.play = False
+            print("hi")

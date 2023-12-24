@@ -1,0 +1,5 @@
+dark green = #4B7674
+light green = #00999D
+dark dark green = #203939
+yellow = #FFD553
+orange = #EE680F
