@@ -57,7 +57,7 @@ class MenuWindow(ABC):
         self.Check_posture.place(relx = 0.5, rely = 0.705, anchor = 'n')
 
         # music button
-        self.custom_playlist = "playlist"
+        self.custom_playlist = "main\playlist"
         def addMusic():  
             Importmusic = fd.askopenfilename(title = "Select a mp3 file to add",  filetypes=[("mp3 Files","*.mp3")])  
             try:  
@@ -65,7 +65,7 @@ class MenuWindow(ABC):
                 print("Saved file")              
             except:  
                 print("The file wasn't added")
-        self.addmusic_img = tk.PhotoImage(file = "add-music.png")
+        self.addmusic_img = tk.PhotoImage(file = "main/add-music.png")
         self.addmusic = tk.Button(self.w,image = self.addmusic_img, background = "#F4E4C6", relief = "flat", activebackground = "#F4690C", 
         highlightbackground = "#203939",command = addMusic)
         self.addmusic.place(relx = 0.5, rely = 0.59 ,anchor = 'n')
@@ -379,7 +379,7 @@ class Started(MenuWindow):
     
     def PlayMusic(self):
         # input playlist
-        self.playlist = "playlist"
+        self.playlist = "main\playlist"
         list1 = []
         rand_music_list = []
         list2 = []
@@ -392,7 +392,7 @@ class Started(MenuWindow):
                 list1.append(path)
                 backlash = "\\"
                 for i in list1:
-                    p = "playlist" + backlash
+                    p = "main\playlist" + backlash
                     i = p+i
                     rand_music_list.append(i)
         # print(rand_music_list)
@@ -404,7 +404,7 @@ class Started(MenuWindow):
             if os.path.isfile(os.path.join(self.custom_playlist,path)):  
                 list2.append(path)
                 for i in list2:
-                    p = "playlist\\"
+                    p = "main\playlist\\"
                     i = p+i
                     cus_music_list.append(i)
             print(cus_music_list)
@@ -427,13 +427,13 @@ class Started(MenuWindow):
                 self.w2.destroy()
 
         # pause button
-        self.pause_img = tk.PhotoImage(file = "pause.png")
+        self.pause_img = tk.PhotoImage(file = "main\pause.png")
         self.B_playM = tk.Button(self.w2, text = "pause", image = self.pause_img, relief = 'flat', background = "#425462", command = pause_playMusic)
         self.B_playM.grid(column = 8, row = 7, sticky = tk.EW, columnspan = 2)
-        self.play_img = tk.PhotoImage(file = "play.png")
+        self.play_img = tk.PhotoImage(file = "main\play.png")
 
         # show music
-        self.quit_img = tk.PhotoImage(file = "quit_w2.png")
+        self.quit_img = tk.PhotoImage(file = "main\quit_w2.png")
         self.NowP = tk.Label(self.w2, text = "==== Now Playing ====",background = '#425462', foreground = "#97B7C4", font = self.san16)
         self.NowP.grid(column = 8, row = 1, padx = 10, sticky = tk.EW, columnspan = 2)
         # quit w2
@@ -456,7 +456,7 @@ class Started(MenuWindow):
                     mixer.music.set_volume(0.1)   
 
                     # show song name
-                    self.nnn = rand_music_list[0].replace("playlist\\", "")
+                    self.nnn = rand_music_list[0].replace("main\playlist\\", "")
                     self.nameS = self.nnn.replace(".mp3", "")
                     self.strvar_music = tk.StringVar(self.w2)
                     self.mu = self.nameS
@@ -469,7 +469,7 @@ class Started(MenuWindow):
                     del rand_music_list[rand_music_list.index(rand_music_list[0])]
                     mixer.music.queue(rand_music_list[0])
                     def change():
-                        self.nnn = rand_music_list[0].replace("playlist\\", "")
+                        self.nnn = rand_music_list[0].replace("main\playlist\\", "")
                         self.nameS = self.nnn.replace(".mp3", "")
                         self.mu = self.nameS
                         self.strvar_music.set(self.mu)
@@ -499,7 +499,7 @@ class Started(MenuWindow):
                                     
                         # show song name
                         self.w2.update() 
-                        self.nnn = cus_music_list[0].replace("playlist\\", "")
+                        self.nnn = cus_music_list[0].replace("main\playlist\\", "")
                         self.nameS = self.nnn.replace(".mp3", "")
                         self.strvar_music = tk.StringVar(self.w2)
                         self.mu = self.nameS
@@ -515,7 +515,7 @@ class Started(MenuWindow):
                         mixer.music.queue(cus_music_list[0])
 
                         def change():
-                            self.nnn = cus_music_list[0].replace("playlist\\", "")
+                            self.nnn = cus_music_list[0].replace("main\playlist\\", "")
                             self.nameS = self.nnn.replace(".mp3", "")
                             self.mu = self.nameS
                             self.strvar_music.set(self.mu)
@@ -537,7 +537,7 @@ class Started(MenuWindow):
 
     def DisplayImages(self):
         # get pictures
-        self.picsFolder = "photos"
+        self.picsFolder = "main\photos"
         list1 = []
         rand_pics_list = []
 
@@ -547,7 +547,7 @@ class Started(MenuWindow):
             if os.path.isfile(os.path.join(self.picsFolder,path)):  
                 list1.append(path)
                 for i in list1:
-                    p = "photos\\"
+                    p = "main\photos\\"
                     i = p+i
                     rand_pics_list.append(i)
         random.shuffle(rand_pics_list)
